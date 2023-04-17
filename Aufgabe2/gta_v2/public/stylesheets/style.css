@@ -261,8 +261,7 @@ header {
 
   fieldset {
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-direction: column;
     justify-content: space-between;
 
     padding-left: 8px;

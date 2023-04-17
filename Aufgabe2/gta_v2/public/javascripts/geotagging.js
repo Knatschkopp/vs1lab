@@ -105,8 +105,9 @@ class MapManager {
 function updateLocation() {
 
     LocationHelper.findLocation((helper) => {
-        var latitude = helper.latitude;
-        var longitude = helper.longitude;
+        /*var latitude = helper.latitude;
+        var longitude = helper.longitude;*/
+        var {latitude, longitude} = helper;
         document.getElementById("latitude-tag-input").value = latitude;
         document.getElementById("longitude-tag-input").value = longitude;
         document.getElementById("latitude-search-input").value = latitude;
