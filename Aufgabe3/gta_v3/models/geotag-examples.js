@@ -1,5 +1,9 @@
 // File origin: VS1LAB A3
 
+
+const GeoTag = require("./geotag");
+const InMemoryGeoTagStore = require("./geotag-store");
+
 /**
  * This script is a template for exercise VS1lab/Aufgabe3
  * Complete all TODOs in the code documentation.
@@ -31,5 +35,13 @@ class GeoTagExamples {
         ];
     }
 }
+
+store = new InMemoryGeoTagStore();
+list = GeoTagExamples.tagList;
+
+for(i = 0; i < list.length; i++) {
+    store.addGeoTag(new GeoTag(list[i]));
+}
+
 
 module.exports = GeoTagExamples;

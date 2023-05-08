@@ -38,3 +38,5 @@ class MapManager {
         return mapQuestUrl;
     }
 }
+
+

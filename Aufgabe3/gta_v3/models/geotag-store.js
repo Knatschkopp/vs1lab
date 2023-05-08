@@ -25,7 +25,38 @@
  */
 class InMemoryGeoTagStore{
 
-    // TODO: ... your code here ...
+    #geotags = [];
+
+    addGeoTag(tag) {
+        this.#geotags.push(tag);
+    }
+
+    removeGeoTag(name) {
+        this.#geotags = this.#geotags.filter(function(ele){ 
+            return ele != name; 
+        });
+    }
+
+    getNearbyGeoTags(location) {
+        const radius = 5;
+        return this.#geotags.filter(function(ele) {
+            return ele.latitude <= location[0] + radius 
+                && ele.latitude >= location[0] - radius
+                && ele.longitude >= location[1] - radius
+                && ele.longitude >= location[1] - radius;
+        });
+    }
+
+    searchNearbyGeoTags(location, keyword) {
+        const radius = 5;
+        return this.#geotags.filter(function(ele) {
+            return (ele.latitude <= location[0] + radius 
+                && ele.latitude >= location[0] - radius
+                && ele.longitude >= location[1] - radius
+                && ele.longitude >= location[1] - radius
+                && (ele.name.includes(keyword) || ele.hashtag.includes(keyword)))
+        });
+    }
 
 }
 

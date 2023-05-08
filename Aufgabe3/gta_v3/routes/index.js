@@ -30,6 +30,8 @@ const GeoTag = require('../models/geotag');
  */
 // eslint-disable-next-line no-unused-vars
 const GeoTagStore = require('../models/geotag-store');
+const InMemoryGeoTagStore = require('../models/geotag-store');
+store = new InMemoryGeoTagStore();
 
 /**
  * Route '/' for HTTP 'GET' requests.
@@ -42,7 +44,10 @@ const GeoTagStore = require('../models/geotag-store');
 
 // TODO: extend the following route example if necessary
 router.get('/', (req, res) => {
-  res.render('index', { taglist: [] })
+  res.render('index', { taglist: [] , 
+                        latitudeValue: undefined, 
+                        longitudeValue: undefined,
+                        taglist_json: []});
 });
 
 /**
@@ -61,6 +66,17 @@ router.get('/', (req, res) => {
  */
 
 // TODO: ... your code here ...
+router.post('/tagging', (req, res, next) => {
+  let array = [req.body.nametaginput, req.body.latitudetaginput, req.body.longitudetaginput, req.body.hashtagtaginput];
+  tag = new GeoTag(array);
+  store.addGeoTag(tag);
+  let taglist = store.getNearbyGeoTags([req.body.latitudetaginput, req.body.longitudetaginput]);
+  let jsonList = JSON.stringify(taglist);
+  res.render('index', {taglist: taglist, 
+                      latitudeValue: req.body.latitudetaginput, 
+                      longitudeValue: req.body.longitudetaginput,
+                      taglist_json: jsonList});
+});
 
 /**
  * Route '/discovery' for HTTP 'POST' requests.
@@ -79,5 +95,14 @@ router.get('/', (req, res) => {
  */
 
 // TODO: ... your code here ...
+router.post('/discovery', (req, res) => {
+  let keyword = req.body.searchtermsearchinput;
+  let taglist = store.searchNearbyGeoTags([req.body.latitudesearchinput, req.body.longitudesearchinput], keyword);
+  let jsonList = JSON.stringify(taglist);
+  res.render('index', { taglist: taglist, 
+                        latitudeValue: req.body.latitudesearchinput, 
+                        longitudeValue: req.body.longitudesearchinput, 
+                        taglist_json: jsonList});
+});
 
 module.exports = router;
