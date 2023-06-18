@@ -32,6 +32,7 @@ const GeoTag = require('../models/geotag');
 const GeoTagStore = require('../models/geotag-store');
 const InMemoryGeoTagStore = require('../models/geotag-store');
 store = new InMemoryGeoTagStore();
+store.fillExamples();
 
 /**
  * Route '/' for HTTP 'GET' requests.
@@ -44,10 +45,10 @@ store = new InMemoryGeoTagStore();
 
 // TODO: extend the following route example if necessary
 router.get('/', (req, res) => {
-  res.render('index', { taglist: [] , 
+  res.render('index', { taglist: store.taglist , 
                         latitudeValue: undefined, 
                         longitudeValue: undefined,
-                        taglist_json: []});
+                        taglist_json: JSON.stringify(store.taglist)});
 });
 
 /**

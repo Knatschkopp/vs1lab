@@ -36,12 +36,5 @@ class GeoTagExamples {
     }
 }
 
-store = new InMemoryGeoTagStore();
-list = GeoTagExamples.tagList;
-
-for(i = 0; i < list.length; i++) {
-    store.addGeoTag(new GeoTag(list[i]));
-}
-
 
 module.exports = GeoTagExamples;

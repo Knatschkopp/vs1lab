@@ -1,5 +1,8 @@
 // File origin: VS1LAB A3
 
+const GeoTagExamples = require('../models/geotag-examples');
+const GeoTag = require('../models/geotag');
+
 /**
  * This script is a template for exercise VS1lab/Aufgabe3
  * Complete all TODOs in the code documentation.
@@ -27,6 +30,16 @@ class InMemoryGeoTagStore{
 
     #geotags = [];
 
+    fillExamples() {
+        GeoTagExamples.tagList.forEach(geotag => {
+            this.addGeoTag(new GeoTag(geotag));
+        });     
+    }
+
+    get taglist() {
+        return this.#geotags;
+    }
+
     addGeoTag(tag) {
         this.#geotags.push(tag);
     }
@@ -40,20 +53,16 @@ class InMemoryGeoTagStore{
     getNearbyGeoTags(location) {
         const radius = 5;
         return this.#geotags.filter(function(ele) {
-            return ele.latitude <= location[0] + radius 
-                && ele.latitude >= location[0] - radius
-                && ele.longitude >= location[1] - radius
-                && ele.longitude >= location[1] - radius;
+            return (ele.latitude <= location[0] + radius || ele.latitude >= location[0] - radius)
+            && (ele.longitude <= location[1] + radius || ele.longitude >= location[1] - radius)
         });
     }
 
     searchNearbyGeoTags(location, keyword) {
         const radius = 5;
         return this.#geotags.filter(function(ele) {
-            return (ele.latitude <= location[0] + radius 
-                && ele.latitude >= location[0] - radius
-                && ele.longitude >= location[1] - radius
-                && ele.longitude >= location[1] - radius
+            return ((ele.latitude <= location[0] + radius || ele.latitude >= location[0] - radius)
+                && (ele.longitude <= location[1] + radius || ele.longitude >= location[1] - radius)
                 && (ele.name.includes(keyword) || ele.hashtag.includes(keyword)))
         });
     }
