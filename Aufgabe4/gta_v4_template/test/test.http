@@ -1,0 +1,22 @@
+POST http://localhost:3000/api/geotags
+Content-Type: application/json
+
+{
+  "lat": 87.204,
+  "long": 56.209,
+  "name": "HalloWorld",
+  "searchterm": "#Man"
+}
+
+GET http://localhost:3000/api/geotags
+
+
+PUT http://localhost:3000/api/geotags/4
+Content-Type: application/json
+
+{
+  "lat": 40.204,
+  "long": 40.209,
+  "name": "Joahnnes",
+  "searchterm": "#ohanss"
+}
