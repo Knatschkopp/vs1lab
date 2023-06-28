@@ -179,7 +179,6 @@ router.post('/api/geotags', (req, res) => {
 // TODO: ... your code here ...
 router.get('/api/geotags/:id', (req, res) => {
   let id = req.params.id;
-  console.log(id);
   let geotag = store.searchGeotagByID(id);
   res.status(200).json(JSON.stringify(geotag));
 })
@@ -234,6 +233,23 @@ router.delete('/api/geotags/:id', (req, res) => {
       store.removeGeoTag(id);
       console.log(store.searchGeotagByID(id))
       res.status(203).json(JSON.stringify(geotag));
+  }
+})
+
+router.get('/api/pagination/:page', (req, res) => {
+  const MAX_LENGTH = 5;
+  var pageNumber = req.params.page;
+  var lowerBound = (pageNumber - 1) * MAX_LENGTH;
+  var upperBound = pageNumber * MAX_LENGTH - 1;
+  let taglist = [];
+  console.log(pageNumber);
+  if (store.taglist === undefined)
+    res.status(400);
+  else {
+      for (var i = lowerBound; i <= upperBound; i++) {
+          taglist.push(store.taglist[i]);
+      }
+      res.status(202).json(JSON.stringify(taglist));
   }
 })
 
